@@ -1,81 +1,113 @@
-# AutoCorp-Hub
+# AutoCorp Hub
 
-Automation hub for AutoCorp — scheduling, HR/document helpers, email utilities, and deployment manifests.
+Agentic AI platform for enterprise automation — modular digital workers (agents) to automate HR onboarding, mail/calendar automation, and other business workflows. Built as containerized microservices (FastAPI) with LLM-backed extraction and orchestration on Google Kubernetes Engine (GKE).
 
-## Overview
+## Project overview
 
-AutoCorp-Hub bundles a set of small, focused Python utilities and deployment manifests used for internal automation tasks. The repo includes:
-- Meeting scheduling helpers
-- HR document request automation
-- Email helper utilities
-- Database helper scripts and tests
-- Dockerfile and Kubernetes manifests for containerized deployment
+AutoCorp Hub lets organisations deploy and operate small, focused AI agents that perform business tasks (HR onboarding, meeting scheduling, mail automation, Jira/task automation). Agents are orchestrated by a FastAPI backend and controlled by a Streamlit dashboard for HR managers. Core services integrate with Gmail and Google Calendar APIs and use LLMs (Vertex AI or Hugging Face) to extract structured data from natural-language inputs.
 
-## Features
+Key objectives
+- Automate HR onboarding (email parsing, scheduling, document generation).
+- Use Gmail + Google Calendar APIs for event-driven workflows.
+- Use LLMs to interpret email content and extract structured onboarding data.
+- Containerize services with Docker and run at scale on GKE.
+- Provide a Streamlit dashboard for monitoring and manual control.
 
-- Simple Python scripts for office automation
-- Dockerfile for quick container builds
-- Kubernetes manifests under `k8s/` for cluster deployments
-- Minimal tests to validate DB utilities
+## Architecture (high level)
 
-## Quick start (Windows PowerShell)
+- Streamlit UI: user dashboard for subscribing to agents and triggering workflows.
+- FastAPI Orchestrator: routes requests, coordinates microservices and agents.
+- Microservices: Mail Automation, Meeting Scheduler, HR Onboarding, Jira Manager (each a Dockerized FastAPI service).
+- LLM Layer: Vertex AI or Hugging Face models for NL understanding and extraction.
+- Storage: Google Cloud Storage (GCS) for files; Cloud SQL (Postgres) for structured data.
+- Infrastructure: GKE for orchestration and scaling; optional GPU nodes for inference.
+- Auth: Google OAuth2 for Gmail/Calendar access.
+
+## Components
+
+- `streamlit/` — Streamlit dashboard (UI for HR managers)
+- `services/` — FastAPI microservices (mail, scheduler, onboarding, etc.)
+- `agents/` — agent templates & orchestration helpers
+- `k8s/` — Kubernetes manifests for deployment (configmap, secret, deployment, service)
+- `Dockerfile` — example service container build
+- `requirements.txt` — Python dependencies
+- `tests/` — pytest unit and integration tests
+
+## Quickstart (developer)
 
 Prerequisites:
 - Python 3.9+
 - pip
-- (optional) Docker, kubectl for deployment
+- Docker (for building images)
+- kubectl & gcloud (for deploying to GKE)
+- `gh` (optional) for GitHub operations
 
-Create and activate virtual environment:
-powershell:
+Local dev:
 
-python -m venv .venv
+1. Create a virtualenv and install deps:
+   powershell:
+   
+   python -m venv .venv
+   
+   .\.venv\Scripts\Activate.ps1
+   
+   pip install -r requirements.txt 
 
-.\\.venv\\Scripts\\Activate.ps1  
+2. Run Service locally:
 
-Install Dependencies:
+cd services/mail_automation
 
-pip install -r requirements.txt
+uvicorn main:app --reload --port 8001
 
-Run main app or a script:
+3. Run Streamlit Dashboard:
 
-python app.py
-or
-python meeting_scheduler.py
+cd streamlit
 
-Run Tests:
+streamlit run app.py
 
-python -m pytest -q
+4. Run Tests:
 
-## Docker
-Build and run locally:
+python -m pytest tests -q
 
-docker build -t autocorp-hub:local .
+## Environment and secrets:
 
-docker run --rm -p 8000:8000 autocorp-hub:local
+Set the following environment variables (use Secrets in CI / GitHub Actions, or Secret Manager in GCP):
 
-## Kubernetes
-Apply manifests in k8s/ :
+ - GOOGLE_APPLICATION_CREDENTIALS: path or content for GCP service account credentials
+- GMAIL_OAUTH_CLIENT_ID, GMAIL_OAUTH_CLIENT_SECRET
+- GOOGLE_CAL_CLIENT_ID, GOOGLE_CAL_CLIENT_SECRET
+- VERTEX_AI_PROJECT (if using Vertex)
+- HUGGINGFACE_API_KEY (if using HF)
+- DATABASE_URL (postgres://... for Cloud SQL via proxy or private IP)
+- GCS_BUCKET (for storing generated documents)
+
+Important: Do not commit secrets or credentials to the repo. Use GitHub Secrets / GCP Secret Manager.
+
+## Docker and Google Kubernetes Engine (GKE) Deployment:
+
+Build a service image:
+
+docker build -t gcr.io/<GCP_PROJECT>/autocorp-mail:latest services/mail_automation
+
+docker push gcr.io/<GCP_PROJECT>/autocorp-mail:latest
+
+Deploy to GKE:
 
 kubectl apply -f k8s/configmap.yaml
 
-kubectl apply -f k8s/secret.yaml
+kubectl apply -f k8s/secret.yaml  # ensure secrets created from envs / secret manager
 
 kubectl apply -f k8s/deployment.yaml
 
 kubectl apply -f k8s/service.yaml
 
-Note: Do not commit real secrets to the repo. Replace sensitive values with variables or use cluster secret stores.
+Scaling and Monitoring: 
 
-## Configuration and Secrets :
-Use environment variables or GitHub Actions secrets for credentials and tokens.
-Inspect k8s/secret.yaml, .env, and any *.json files for secrets before pushing. Replace with placeholders where needed.
+Use kubectl scale or HPA (HorizontalPodAutoscaler) for autoscaling.
 
-## Project Structure :
-- app.py — main entry (if used)
-- *.py — utility scripts
-- k8s/ — Kubernetes manifests and SQL dumps
-- Dockerfile — container build
-- requirements.txt — Python dependencies
+Use Google Cloud Monitoring, Trace, and Logging for observability.
+
+
 
 
 
