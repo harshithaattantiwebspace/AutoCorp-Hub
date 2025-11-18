@@ -1,0 +1,22 @@
+{
+    "auto_mail_reply": {
+        "active": false,
+        "mode": "specific",
+        "emails": [
+            "harshitha.attanti1@gmail.com"
+        ]
+    },
+    "meeting_scheduler": {
+        "active": false,
+        "mode": "specific",
+        "emails": [
+            "harshitha.attanti1@gmail.com"
+        ]
+    },
+    "hr_document_request": {
+        "active": true,
+        "allowed_emails": [
+            "harshitha.attanti1@gmail.com"
+        ]
+    }
+}

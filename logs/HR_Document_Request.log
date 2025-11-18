@@ -1,0 +1,42 @@
+Script started
+Loaded allowed HR emails: ['harshitha.attanti1@gmail.com']
+entered document request function
+getting unread emails
+ Checking unread mails for HR document requests...
+--- Processing Message ---
+Subject: Request: resume.txt
+Sender: Harshitha Attanti <harshitha.attanti1@gmail.com>
+Request: resume.txt
+ Requested file from harshitha.attanti1@gmail.com: resume.txt
+ Sent resume.txt to harshitha.attanti1@gmail.com
+ Replied to harshitha.attanti1@gmail.com with 'resume.txt'
+--- Processing Message ---
+ Error processing message: 'charmap' codec can't encode character '\U0001f381' in position 58: character maps to <undefined>
+--- Processing Message ---
+Subject: Lilly's next-gen weight loss drug hits 20% in PII
+Sender: "GenePool | BioSpace" <newsletters@biospace.com>
+Skipping newsletters@biospace.com — not in allowed HR sender list.
+--- Processing Message ---
+Subject: Welcome To Duet
+Sender: Duet Team <team@duetdisplay.com>
+Skipping team@duetdisplay.com — not in allowed HR sender list.
+--- Processing Message ---
+Subject: We noticed that something caught your eye...
+Sender: Walmart <newsletters@em.walmart.com>
+Skipping newsletters@em.walmart.com — not in allowed HR sender list.
+--- Processing Message ---
+Subject: Apply for ACA Health Plans
+Sender: Your Health Coverage Experts <ezines@arcamax.com>
+Skipping ezines@arcamax.com — not in allowed HR sender list.
+--- Processing Message ---
+Subject: Launch Your Technology Career with Purpose at Capital Group!
+Sender: Capital Group via WayUp <info@wayup.com>
+Skipping info@wayup.com — not in allowed HR sender list.
+--- Processing Message ---
+Subject: Apply for Aflac today
+Sender: Aflac <ezines@arcamax.com>
+Skipping ezines@arcamax.com — not in allowed HR sender list.
+--- Processing Message ---
+ Error processing message: 'charmap' codec can't encode character '\U0001f48b' in position 9: character maps to <undefined>
+--- Processing Message ---
+ Error processing message: 'charmap' codec can't encode character '\U0001f4fa' in position 61: character maps to <undefined>

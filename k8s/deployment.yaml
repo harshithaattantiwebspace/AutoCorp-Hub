@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: autocorp-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: autocorp
+  template:
+    metadata:
+      labels:
+        app: autocorp
+    spec:
+      containers:
+        # ---- Main Streamlit app ----
+        - name: autocorp
+          image: us-central1-docker.pkg.dev/autocorp-476900/autocorp-repo/autocorp-hub:latest
+          ports:
+            - containerPort: 8501
+          env:
+            - name: PGHOST
+              value: "127.0.0.1"
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              value: "autocorp"
+            - name: PGUSER
+              value: "hr_user"
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: autocorp-secrets
+                  key: PGPASSWORD
+          volumeMounts:
+            - name: gcp-creds
+              mountPath: /secrets
+              readOnly: true
+
+        # ---- Cloud SQL Proxy sidecar ----
+        - name: cloudsql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.8.0
+          args:
+            - "--port=5432"
+            - "autocorp-476900:us-central1:autocorp-db"
+            - "--credentials-file=/secrets/autocorp_storage.json"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "100Mi"
+            limits:
+              cpu: "200m"
+              memory: "200Mi"
+          volumeMounts:
+            - name: gcp-creds
+              mountPath: /secrets
+              readOnly: true
+
+      volumes:
+        - name: gcp-creds
+          secret:
+            secretName: gcp-creds
