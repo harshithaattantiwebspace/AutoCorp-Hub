@@ -35,7 +35,7 @@ pip install -r requirements.txt
 
 Run main app or a script:
 python app.py
-# or
+or
 python meeting_scheduler.py
 
 Run Tests:
