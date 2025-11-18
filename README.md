@@ -1,15 +1,14 @@
 # AutoCorp Hub
 
-Agentic AI platform for enterprise automation — modular digital workers (agents) to automate HR document requesting, mail/calendar automation, and other business workflows. Built as containerized microservices (FastAPI) with LLM-backed extraction and orchestration on Google Kubernetes Engine (GKE).
+Agentic AI platform for enterprise automation — modular digital workers (agents) to automate HR document requesting, mail/calendar automation, and other business workflows. Built as containerized microservices (FastAPI) with orchestration on Google Kubernetes Engine (GKE).
 
 ## Project overview
 
-AutoCorp Hub lets organisations deploy and operate small, focused AI agents that perform business tasks (HR onboarding, meeting scheduling, mail automation, Jira/task automation). Agents are orchestrated by a FastAPI backend and controlled by a Streamlit dashboard for HR managers. Core services integrate with Gmail and Google Calendar APIs and use LLMs (Vertex AI or Hugging Face) to extract structured data from natural-language inputs.
+AutoCorp Hub lets organisations deploy and operate small, focused AI agents that perform business tasks (HR document request, meeting scheduling, mail automation). Agents are orchestrated by a FastAPI backend and controlled by a Streamlit dashboard for HR managers. Core services integrate with Gmail and Google Calendar APIs and use Vertex AI or Hugging Face to extract structured data from natural-language inputs.
 
 Key objectives
 - Automate HR Document Requesting services
 - Use Gmail + Google Calendar APIs for event-driven workflows.
-- Use LLMs to interpret email content and extract structured onboarding data.
 - Containerize services with Docker and run at scale on GKE.
 - Provide a Streamlit dashboard for monitoring and manual control.
 
@@ -18,7 +17,7 @@ Key objectives
 - Streamlit UI: user dashboard for subscribing to agents and triggering workflows.
 - FastAPI Orchestrator: routes requests, coordinates microservices and agents.
 - Microservices: Mail Automation, Meeting Scheduler, HR Document Request (each a Dockerized FastAPI service).
-- LLM Layer: Vertex AI or Hugging Face models for NL understanding and extraction.
+- Vertex AI or Hugging Face models for NL understanding and extraction.
 - Storage: Google Cloud Storage (GCS) for files; Cloud SQL (Postgres) for structured data.
 - Infrastructure: GKE for orchestration and scaling; optional GPU nodes for inference.
 - Auth: Google OAuth2 for Gmail/Calendar access.
