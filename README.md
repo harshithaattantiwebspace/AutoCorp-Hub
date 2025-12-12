@@ -1,6 +1,6 @@
 # AutoCorp Hub
 
-Agentic AI platform for enterprise automation — modular digital workers (agents) to automate HR document requesting, mail/calendar automation, and other business workflows. Built as containerized microservices (FastAPI) with orchestration on Google Kubernetes Engine (GKE).
+Microservices platform for enterprise automation — modular digital workers (agents) to automate HR document requesting, mail/calendar automation, and other business workflows. Built as containerized microservices (FastAPI) with orchestration on Google Kubernetes Engine (GKE).
 
 ## Project overview
 
